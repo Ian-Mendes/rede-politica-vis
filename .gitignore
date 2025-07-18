@@ -12,3 +12,8 @@ data/prestacao_de_contas_2024.zip
 
 # Opcional: ignorar CSVs grandes brutos
 data/prestacao_contas_2024/
+
+# Ignorar datasets grandes
+data/prestacao_contas_2024/
+data/prestacao_de_contas_2024.zip
+data/processed/receitas_consolidadas.csv
