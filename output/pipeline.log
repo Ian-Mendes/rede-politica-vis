@@ -1,0 +1,10 @@
+2025-07-18 12:05:16,397 - INFO - Iniciando pipeline de análise política
+2025-07-18 12:05:16,397 - INFO - Pipeline concluída com sucesso em 0:00:00
+2025-07-18 12:06:41,441 - INFO - Iniciando pipeline de análise política
+2025-07-18 12:06:41,441 - INFO - Etapa 2/3: Processando dados
+2025-07-18 12:06:47,382 - INFO - Etapa 3/3: Analisando dados
+2025-07-18 12:06:57,448 - INFO - Pipeline concluída com sucesso em 0:00:16.007446
+2025-07-18 12:10:34,816 - INFO - Iniciando pipeline de análise política
+2025-07-18 12:10:34,830 - INFO - Etapa 2/3: Processando dados
+2025-07-18 12:10:40,299 - INFO - Etapa 3/3: Analisando dados
+2025-07-18 12:10:45,647 - INFO - Pipeline concluída com sucesso em 0:00:10.830999

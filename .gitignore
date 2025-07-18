@@ -1,0 +1,14 @@
+# Ignorar cache do Python
+__pycache__/
+*.py[cod]
+
+# Ignorar arquivos temporários do sistema
+*.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de saída (modifique conforme seu pipeline)
+output/
+data/prestacao_de_contas_2024.zip
+
+# Opcional: ignorar CSVs grandes brutos
+data/prestacao_contas_2024/
