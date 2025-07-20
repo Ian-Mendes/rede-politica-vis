@@ -2,11 +2,45 @@ import streamlit as st
 import pandas as pd
 import os
 import subprocess
-import time
 import networkx as nx
 import streamlit.components.v1 as components
-from main import carregar_dados, construir_rede, calcular_metricas, detectar_comunidades, gerar_visualizacao
 
+from main import carregar_dados, construir_rede, calcular_metricas, detectar_comunidades
+
+# Função geradora de visualização inline (modificada do main.py)
+from pyvis.network import Network
+
+def gerar_visualizacao_inline(G, metrics, partition):
+    net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white", notebook=False, directed=True)
+
+    comunidades = set(partition.values())
+    palette = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231',
+               '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe']
+    color_map = {com: palette[i % len(palette)] for i, com in enumerate(comunidades)}
+
+    for node in G.nodes():
+        com = partition.get(node, -1)
+        color = color_map.get(com, '#ffffff')
+        title = (
+            f"<b>Nome:</b> {node}<br>"
+            f"<b>Comunidade:</b> {com}<br>"
+            f"<b>Degree Centrality:</b> {metrics['degree'].get(node, 0):.4f}<br>"
+            f"<b>Closeness Centrality:</b> {metrics['closeness'].get(node, 0):.4f}<br>"
+            f"<b>Eigenvector Centrality:</b> {metrics['eigenvector'].get(node, 0):.4f}<br>"
+            f"<b>Betweenness Centrality:</b> {metrics['betweenness'].get(node, 0):.4f}"
+        )
+        net.add_node(node, label=node, title=title, color=color)
+
+    for u, v, data in G.edges(data=True):
+        valor = data.get("weight", 1)
+        width = max(1, valor / 1000)
+        title = f"Valor da doação: R${valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        net.add_edge(u, v, value=valor, width=width, title=title)
+
+    html_str = net.generate_html()
+    return html_str
+
+# Configuração da página
 st.set_page_config(page_title="Análise de Rede Política", layout="wide")
 
 st.title("🔗 Análise de Rede Política - TSE 2024")
@@ -41,7 +75,6 @@ if partido_selecionado != "Todos":
 
 df = df[df['VR_RECEITA'] >= valor_min]
 
-# Constrói rede e calcula métricas
 if df.empty:
     st.warning("Nenhum dado encontrado com os filtros selecionados.")
 else:
@@ -49,10 +82,6 @@ else:
     metrics = calcular_metricas(G)
     partition = detectar_comunidades(G)
 
-    # Salva visualização
-    gerar_visualizacao(G, metrics, partition, output_html="docs/rede.html")
-
-    # 📊 Métricas da rede
     st.subheader("📈 Métricas da Rede")
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -68,5 +97,5 @@ else:
     st.markdown("---")
     st.subheader("🌐 Visualização Interativa")
 
-    # Mostra rede
-    components.iframe("docs/rede.html", height=750, scrolling=True)
+    html_string = gerar_visualizacao_inline(G, metrics, partition)
+    components.html(html_string, height=750, scrolling=True)
