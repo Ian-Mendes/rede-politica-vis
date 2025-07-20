@@ -76,22 +76,20 @@ def gerar_visualizacao(G, metrics, partition, output_html="docs/rede.html"):
         com = partition.get(node, -1)
         color = color_map.get(com, '#ffffff')  # branco padrão
         title = (
-            f"<b>Nome:</b> {node}<br><br>"
-            f"<b>Comunidade:</b> {com}<br><br>"
-            f"<b>Métricas de Centralidade:</b>"
-            f"<ul style='margin: 0; padding-left: 18px;'>"
-            f"<li>Degree: {metrics['degree'].get(node, 0):.4f}</li>"
-            f"<li>Closeness: {metrics['closeness'].get(node, 0):.4f}</li>"
-            f"<li>Eigenvector: {metrics['eigenvector'].get(node, 0):.4f}</li>"
-            f"<li>Betweenness: {metrics['betweenness'].get(node, 0):.4f}</li>"
-            f"</ul>"
-        )
+        f"Nome: {node}\n"
+        f"Comunidade: {com}\n"
+        f"Métricas de Centralidade:\n"
+        f" - Degree: {metrics['degree'].get(node, 0):.4f}\n"
+        f" - Closeness: {metrics['closeness'].get(node, 0):.4f}\n"
+        f" - Eigenvector: {metrics['eigenvector'].get(node, 0):.4f}\n"
+        f" - Betweenness: {metrics['betweenness'].get(node, 0):.4f}"
+    )
         net.add_node(node, label=node, title=title, color=color)
 
     for u, v, data in G.edges(data=True):
         valor = data.get("weight", 1)
         width = max(1, valor / 1000)
-        title = f"<b>Valor da doação:</b> R${valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+        title = f"Valor da doação: R${valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
         net.add_edge(u, v, value=valor, width=width, title=title)
 
     os.makedirs("docs", exist_ok=True)
