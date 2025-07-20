@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#e6194b", "font": {"color": "white"}, "id": "OZAIDE CORDEIRO TORRES", "label": "OZAIDE CORDEIRO TORRES", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e OZAIDE CORDEIRO TORRES\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 0\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 2.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#e6194b", "font": {"color": "white"}, "id": "PL", "label": "PL", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PL\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 0\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 2.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0541\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.1416\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#e6194b", "font": {"color": "white"}, "id": "PP", "label": "PP", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PP\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 0\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 2.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0541\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.1416\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "NEUZIVAN CLEMENTE FERREIRA", "label": "NEUZIVAN CLEMENTE FERREIRA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e NEUZIVAN CLEMENTE FERREIRA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "PODE", "label": "PODE", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PODE\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 7.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.1892\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.4949\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#4363d8", "font": {"color": "white"}, "id": "PAULO ESTEV\u00c3O DE MIRANDA BORGES", "label": "PAULO ESTEV\u00c3O DE MIRANDA BORGES", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PAULO ESTEV\u00c3O DE MIRANDA BORGES\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 3\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#4363d8", "font": {"color": "white"}, "id": "PSD", "label": "PSD", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PSD\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 3\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 3.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0811\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.2123\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "ANA CATARINA FERREIRA DUARTE DE AQUINO", "label": "ANA CATARINA FERREIRA DUARTE DE AQUINO", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e ANA CATARINA FERREIRA DUARTE DE AQUINO\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "SAMARA TRIGUEIRO F\u00c9LIX DA SILVA", "label": "SAMARA TRIGUEIRO F\u00c9LIX DA SILVA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e SAMARA TRIGUEIRO F\u00c9LIX DA SILVA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "UNI\u00c3O", "label": "UNI\u00c3O", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e UNI\u00c3O\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 9.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.2432\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.6363\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "FLAVIO ANTONIO DA SILVA JUNIOR", "label": "FLAVIO ANTONIO DA SILVA JUNIOR", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e FLAVIO ANTONIO DA SILVA JUNIOR\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "IGOR RAYAN FERREIRA COSTA OLIVEIRA E SILVA", "label": "IGOR RAYAN FERREIRA COSTA OLIVEIRA E SILVA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e IGOR RAYAN FERREIRA COSTA OLIVEIRA E SILVA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "ROBSON RICARDO MACHADO LIMA DE CARVALHO", "label": "ROBSON RICARDO MACHADO LIMA DE CARVALHO", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e ROBSON RICARDO MACHADO LIMA DE CARVALHO\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#4363d8", "font": {"color": "white"}, "id": "MARIA DE FATIMA LEITE GONCALVES", "label": "MARIA DE FATIMA LEITE GONCALVES", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e MARIA DE FATIMA LEITE GONCALVES\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 3\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "ROSSANE MARQUES LIMA PATRIOTA", "label": "ROSSANE MARQUES LIMA PATRIOTA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e ROSSANE MARQUES LIMA PATRIOTA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "PSDB", "label": "PSDB", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PSDB\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 7.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.1892\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.4949\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "ANTONIO WAGNER CARVALHO DE LUCENA", "label": "ANTONIO WAGNER CARVALHO DE LUCENA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e ANTONIO WAGNER CARVALHO DE LUCENA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "JARDEL RAIRAN DA SILVA ANSELMO", "label": "JARDEL RAIRAN DA SILVA ANSELMO", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e JARDEL RAIRAN DA SILVA ANSELMO\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "CONCEI\u00c7\u00c3O ELIZA DIOGENES MACEDO DE AQUINO", "label": "CONCEI\u00c7\u00c3O ELIZA DIOGENES MACEDO DE AQUINO", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e CONCEI\u00c7\u00c3O ELIZA DIOGENES MACEDO DE AQUINO\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "JOAO CLAUDIO FERNANDES DANTAS", "label": "JOAO CLAUDIO FERNANDES DANTAS", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e JOAO CLAUDIO FERNANDES DANTAS\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#e6194b", "font": {"color": "white"}, "id": "GLADYER LINHARES GODEIRO", "label": "GLADYER LINHARES GODEIRO", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e GLADYER LINHARES GODEIRO\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 0\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "MARIA LUCIA FERREIRA DOS SANTOS", "label": "MARIA LUCIA FERREIRA DOS SANTOS", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e MARIA LUCIA FERREIRA DOS SANTOS\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "MARCELO OLIVEIRA MAIA", "label": "MARCELO OLIVEIRA MAIA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e MARCELO OLIVEIRA MAIA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#e6194b", "font": {"color": "white"}, "id": "PAULO CESAR DE AMORIM ALENCAR", "label": "PAULO CESAR DE AMORIM ALENCAR", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PAULO CESAR DE AMORIM ALENCAR\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 0\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "LAYSSA MATIAS MACEDO", "label": "LAYSSA MATIAS MACEDO", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e LAYSSA MATIAS MACEDO\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "JUDAS TADEU ALVES DOS SANTOS", "label": "JUDAS TADEU ALVES DOS SANTOS", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e JUDAS TADEU ALVES DOS SANTOS\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "ALEXANDRE MAGNO BATISTA MAIA DE MEDEIROS", "label": "ALEXANDRE MAGNO BATISTA MAIA DE MEDEIROS", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e ALEXANDRE MAGNO BATISTA MAIA DE MEDEIROS\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "MATHEUS FAUSTINO DA SILVA SOUZA", "label": "MATHEUS FAUSTINO DA SILVA SOUZA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e MATHEUS FAUSTINO DA SILVA SOUZA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "NIVALDO VARELA BACURAU", "label": "NIVALDO VARELA BACURAU", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e NIVALDO VARELA BACURAU\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "PAULO EDUARDO DA COSTA FREIRE", "label": "PAULO EDUARDO DA COSTA FREIRE", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e PAULO EDUARDO DA COSTA FREIRE\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#f58231", "font": {"color": "white"}, "id": "FRANCISCO DAS CHAGAS CATARINO", "label": "FRANCISCO DAS CHAGAS CATARINO", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e FRANCISCO DAS CHAGAS CATARINO\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 4\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#4363d8", "font": {"color": "white"}, "id": "FABIO MARTINS NUNES", "label": "FABIO MARTINS NUNES", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e FABIO MARTINS NUNES\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 3\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "JESSICA CRISLAINNY VALE LUCENA", "label": "JESSICA CRISLAINNY VALE LUCENA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e JESSICA CRISLAINNY VALE LUCENA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#911eb4", "font": {"color": "white"}, "id": "RUBENILZA ALVES DE ALMEIDA", "label": "RUBENILZA ALVES DE ALMEIDA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e RUBENILZA ALVES DE ALMEIDA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 5\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#ffe119", "font": {"color": "white"}, "id": "JOAO FELIPE ALVES MOREIRA DA SILVA", "label": "JOAO FELIPE ALVES MOREIRA DA SILVA", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e JOAO FELIPE ALVES MOREIRA DA SILVA\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 2\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#3cb44b", "font": {"color": "white"}, "id": "RENATO BARBALHO DE MEDEIROS", "label": "RENATO BARBALHO DE MEDEIROS", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e RENATO BARBALHO DE MEDEIROS\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 1\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#3cb44b", "font": {"color": "white"}, "id": "REPUBLICANOS", "label": "REPUBLICANOS", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e REPUBLICANOS\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 1\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 2.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0541\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.1416\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}, {"color": "#3cb44b", "font": {"color": "white"}, "id": "GABRIEL DANTAS DE MEDEIROS GOMES", "label": "GABRIEL DANTAS DE MEDEIROS GOMES", "shape": "dot", "title": "\u003cb\u003eNome:\u003c/b\u003e GABRIEL DANTAS DE MEDEIROS GOMES\u003cbr\u003e\u003cb\u003eComunidade:\u003c/b\u003e 1\u003cbr\u003e\u003cb\u003eDegree Centrality:\u003c/b\u003e 1.0000\u003cbr\u003e\u003cb\u003eCloseness Centrality:\u003c/b\u003e 0.0000\u003cbr\u003e\u003cb\u003eEigenvector Centrality:\u003c/b\u003e 0.0003\u003cbr\u003e\u003cb\u003eBetweenness Centrality:\u003c/b\u003e 0.0000"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "OZAIDE CORDEIRO TORRES", "title": "Valor da doa\u00e7\u00e3o: R$33,00", "to": "PL", "value": 33.0, "width": 1}, {"arrows": "to", "from": "OZAIDE CORDEIRO TORRES", "title": "Valor da doa\u00e7\u00e3o: R$33,00", "to": "PP", "value": 33.0, "width": 1}, {"arrows": "to", "from": "NEUZIVAN CLEMENTE FERREIRA", "title": "Valor da doa\u00e7\u00e3o: R$10,00", "to": "PODE", "value": 10.0, "width": 1}, {"arrows": "to", "from": "PAULO ESTEV\u00c3O DE MIRANDA BORGES", "title": "Valor da doa\u00e7\u00e3o: R$14,00", "to": "PSD", "value": 14.0, "width": 1}, {"arrows": "to", "from": "ANA CATARINA FERREIRA DUARTE DE AQUINO", "title": "Valor da doa\u00e7\u00e3o: R$7.500,00", "to": "PODE", "value": 7500.0, "width": 7.5}, {"arrows": "to", "from": "SAMARA TRIGUEIRO F\u00c9LIX DA SILVA", "title": "Valor da doa\u00e7\u00e3o: R$9,70", "to": "UNI\u00c3O", "value": 9.7, "width": 1}, {"arrows": "to", "from": "FLAVIO ANTONIO DA SILVA JUNIOR", "title": "Valor da doa\u00e7\u00e3o: R$3.900,00", "to": "PODE", "value": 3900.0, "width": 3.9}, {"arrows": "to", "from": "IGOR RAYAN FERREIRA COSTA OLIVEIRA E SILVA", "title": "Valor da doa\u00e7\u00e3o: R$40,00", "to": "UNI\u00c3O", "value": 40.0, "width": 1}, {"arrows": "to", "from": "ROBSON RICARDO MACHADO LIMA DE CARVALHO", "title": "Valor da doa\u00e7\u00e3o: R$82,48", "to": "UNI\u00c3O", "value": 82.48, "width": 1}, {"arrows": "to", "from": "MARIA DE FATIMA LEITE GONCALVES", "title": "Valor da doa\u00e7\u00e3o: R$37,70", "to": "PSD", "value": 37.7, "width": 1}, {"arrows": "to", "from": "ROSSANE MARQUES LIMA PATRIOTA", "title": "Valor da doa\u00e7\u00e3o: R$37,70", "to": "PSDB", "value": 37.7, "width": 1}, {"arrows": "to", "from": "ANTONIO WAGNER CARVALHO DE LUCENA", "title": "Valor da doa\u00e7\u00e3o: R$16,59", "to": "PSDB", "value": 16.59, "width": 1}, {"arrows": "to", "from": "JARDEL RAIRAN DA SILVA ANSELMO", "title": "Valor da doa\u00e7\u00e3o: R$1,00", "to": "UNI\u00c3O", "value": 1.0, "width": 1}, {"arrows": "to", "from": "CONCEI\u00c7\u00c3O ELIZA DIOGENES MACEDO DE AQUINO", "title": "Valor da doa\u00e7\u00e3o: R$3.675,00", "to": "PODE", "value": 3675.0, "width": 3.675}, {"arrows": "to", "from": "JOAO CLAUDIO FERNANDES DANTAS", "title": "Valor da doa\u00e7\u00e3o: R$6.600,00", "to": "PODE", "value": 6600.0, "width": 6.6}, {"arrows": "to", "from": "GLADYER LINHARES GODEIRO", "title": "Valor da doa\u00e7\u00e3o: R$109,30", "to": "PL", "value": 109.3, "width": 1}, {"arrows": "to", "from": "MARIA LUCIA FERREIRA DOS SANTOS", "title": "Valor da doa\u00e7\u00e3o: R$1.300,00", "to": "UNI\u00c3O", "value": 1300.0, "width": 1.3}, {"arrows": "to", "from": "MARCELO OLIVEIRA MAIA", "title": "Valor da doa\u00e7\u00e3o: R$6.000,00", "to": "PODE", "value": 6000.0, "width": 6.0}, {"arrows": "to", "from": "PAULO CESAR DE AMORIM ALENCAR", "title": "Valor da doa\u00e7\u00e3o: R$50,00", "to": "PP", "value": 50.0, "width": 1}, {"arrows": "to", "from": "LAYSSA MATIAS MACEDO", "title": "Valor da doa\u00e7\u00e3o: R$27,00", "to": "PSDB", "value": 27.0, "width": 1}, {"arrows": "to", "from": "JUDAS TADEU ALVES DOS SANTOS", "title": "Valor da doa\u00e7\u00e3o: R$12,30", "to": "PSDB", "value": 12.3, "width": 1}, {"arrows": "to", "from": "ALEXANDRE MAGNO BATISTA MAIA DE MEDEIROS", "title": "Valor da doa\u00e7\u00e3o: R$20,80", "to": "PSDB", "value": 20.8, "width": 1}, {"arrows": "to", "from": "MATHEUS FAUSTINO DA SILVA SOUZA", "title": "Valor da doa\u00e7\u00e3o: R$367,04", "to": "UNI\u00c3O", "value": 367.04, "width": 1}, {"arrows": "to", "from": "NIVALDO VARELA BACURAU", "title": "Valor da doa\u00e7\u00e3o: R$6,00", "to": "UNI\u00c3O", "value": 6.0, "width": 1}, {"arrows": "to", "from": "PAULO EDUARDO DA COSTA FREIRE", "title": "Valor da doa\u00e7\u00e3o: R$0,42", "to": "UNI\u00c3O", "value": 0.42, "width": 1}, {"arrows": "to", "from": "FRANCISCO DAS CHAGAS CATARINO", "title": "Valor da doa\u00e7\u00e3o: R$20,00", "to": "UNI\u00c3O", "value": 20.0, "width": 1}, {"arrows": "to", "from": "FABIO MARTINS NUNES", "title": "Valor da doa\u00e7\u00e3o: R$14,00", "to": "PSD", "value": 14.0, "width": 1}, {"arrows": "to", "from": "JESSICA CRISLAINNY VALE LUCENA", "title": "Valor da doa\u00e7\u00e3o: R$2,12", "to": "PSDB", "value": 2.12, "width": 1}, {"arrows": "to", "from": "RUBENILZA ALVES DE ALMEIDA", "title": "Valor da doa\u00e7\u00e3o: R$34,00", "to": "PSDB", "value": 34.0, "width": 1}, {"arrows": "to", "from": "JOAO FELIPE ALVES MOREIRA DA SILVA", "title": "Valor da doa\u00e7\u00e3o: R$4.000,00", "to": "PODE", "value": 4000.0, "width": 4.0}, {"arrows": "to", "from": "RENATO BARBALHO DE MEDEIROS", "title": "Valor da doa\u00e7\u00e3o: R$63,75", "to": "REPUBLICANOS", "value": 63.75, "width": 1}, {"arrows": "to", "from": "GABRIEL DANTAS DE MEDEIROS GOMES", "title": "Valor da doa\u00e7\u00e3o: R$7.000,00", "to": "REPUBLICANOS", "value": 7000.0, "width": 7.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
