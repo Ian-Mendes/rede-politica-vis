@@ -1,9 +1,10 @@
 # 🔗 Análise de Rede Política
 
 Este projeto realiza uma **análise de redes direcionadas** usando dados públicos do [Tribunal Superior Eleitoral (TSE)](https://dadosabertos.tse.jus.br/dataset/prestacao-de-contas-eleitorais-2024), com foco nas **doações originárias a partidos políticos** no ano de 2024.  
-A visualização interativa é gerada com **Pyvis** e está disponível via **GitHub Pages**.
+A visualização interativa foi desenvolvida com **Pyvis** e está disponível tanto via **GitHub Pages** quanto em uma aplicação web interativa no **Streamlit Cloud**.
 
-> 📍 [Acesse a visualização aqui](https://ian-mendes.github.io/rede-politica-vis/rede.html)
+> 📍 Visualização estática (Pyvis): [https://ian-mendes.github.io/rede-politica-vis/rede.html](https://ian-mendes.github.io/rede-politica-vis/rede.html)  
+> 🌐 Aplicação interativa (Streamlit Cloud): [https://rede-doacao-politica-2024-rn.streamlit.app/](https://rede-doacao-politica-2024-rn.streamlit.app/)
 
 ---
 
@@ -37,20 +38,20 @@ Investigar as relações financeiras entre **doadores originários** e **partido
 
 ### 🧮 Grafo completo
 
-- **Total de Nós:** 56
-- **Total de Arestas:** 32
-- **Doadores:** 31
-- **Partidos:** 25
-- **Componentes Conectados:** 24
-- **Densidade:** 0.0104
-- **Assortatividade:** -0.4224
+- **Total de Nós:** 56  
+- **Total de Arestas:** 32  
+- **Doadores:** 31  
+- **Partidos:** 25  
+- **Componentes Conectados:** 24  
+- **Densidade:** 0.0104  
+- **Assortatividade:** -0.4224  
 
 ### 🔍 Componente Principal
 
-- **Nós:** 10
-- **Arestas:** 9
-- **Diâmetro:** 2
-- **Clustering global:** 0.0000
+- **Nós:** 10  
+- **Arestas:** 9  
+- **Diâmetro:** 2  
+- **Clustering global:** 0.0000  
 
 ### 💠 Centralidades — Top 5
 
@@ -77,9 +78,9 @@ Investigar as relações financeiras entre **doadores originários** e **partido
 
 ## 🌐 Visualização Interativa
 
-> Acesse: [https://ian-mendes.github.io/rede-politica-vis/rede.html](https://ian-mendes.github.io/rede-politica-vis/rede.html)
-
-A visualização é gerada automaticamente no diretório `docs/` como um arquivo `HTML` interativo usando a biblioteca [Pyvis](https://pyvis.readthedocs.io/).
+- A visualização estática em HTML é gerada automaticamente no diretório `docs/` com a biblioteca [Pyvis](https://pyvis.readthedocs.io/).  
+- Para uma experiência interativa mais rica, incluindo filtros e métricas em tempo real, acesse a aplicação no **Streamlit Cloud**:  
+  [https://rede-doacao-politica-2024-rn.streamlit.app/](https://rede-doacao-politica-2024-rn.streamlit.app/)
 
 ---
 
