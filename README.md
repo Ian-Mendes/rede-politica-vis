@@ -76,6 +76,18 @@ Investigar as relações financeiras entre **doadores originários** e **partido
 
 ---
 
+## 📈 Recursos visuais
+
+### Gráfico Circular
+![Gráfico Circular do Grafo Bipartido](images/circular_plot.png)
+
+### Matriz de Adjacência
+![Matriz de Adjacência](images/matriz_de_adjacencia.png)
+
+### Distribuição de graus
+![Distribuição de graus](images/distribuicao_de_graus.png)
+
+---
 ## 🌐 Visualização Interativa
 
 - A visualização estática em HTML é gerada automaticamente no diretório `docs/` com a biblioteca [Pyvis](https://pyvis.readthedocs.io/).  
